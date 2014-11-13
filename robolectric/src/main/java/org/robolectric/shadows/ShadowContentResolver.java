@@ -57,7 +57,7 @@ public class ShadowContentResolver {
 
   private static final Map<String, Map<Account, Status>>  syncableAccounts =
       new HashMap<String, Map<Account, Status>>();
-  private static final Map<String, ContentProvider> providers = new HashMap<String, ContentProvider>();
+  public static final Map<String, ContentProvider> providers = new HashMap<String, ContentProvider>();
   private static boolean masterSyncAutomatically;
 
   @Resetter
@@ -288,6 +288,12 @@ public class ShadowContentResolver {
   public ContentProviderResult[] applyBatch(String authority, ArrayList<ContentProviderOperation> operations) throws OperationApplicationException {
     ContentProvider provider = getProvider(authority);
     if (provider != null) {
+      System.out.println("**********************************************************************************************");
+      System.out.println("provider toString");
+      System.out.println(provider.toString());
+      System.out.println("provider class name");
+      System.out.println(provider.getClass().getName());
+      System.out.println("**********************************************************************************************");
       return provider.applyBatch(operations);
     } else {
       contentProviderOperations.put(authority, operations);
@@ -387,10 +393,16 @@ public class ShadowContentResolver {
 
   private static ContentProvider getProvider(String authority) {
     if (!providers.containsKey(authority)) {
+      System.out.println("compare to authority: " + authority);
       AndroidManifest manifest = Robolectric.getShadowApplication().getAppManifest();
       if (manifest != null) {
         for (ContentProviderData providerData : manifest.getContentProviders()) {
+          System.out.println("provider data from manifest");
+          System.out.println("authority: " + providerData.getAuthority());
+          System.out.println("class name: " + providerData.getClassName());
+          System.out.println("toString: " + providerData.toString());
           if (providerData.getAuthority().equals(authority)) {
+            System.out.println("these are equal! : " + authority + " : and : " + providerData.getAuthority());
             providers.put(providerData.getAuthority(), createAndInitialize(providerData));
           }
         }

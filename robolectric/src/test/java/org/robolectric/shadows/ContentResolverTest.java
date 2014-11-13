@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.RemoteException;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.AndroidManifest;
@@ -63,6 +64,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void insert_shouldReturnIncreasingUris() throws Exception {
     shadowContentResolver.setNextDatabaseIdForInserts(20);
 
@@ -71,11 +73,13 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void getType_shouldDefaultToNull() throws Exception {
     assertThat(contentResolver.getType(uri21)).isNull();
   }
 
   @Test
+  @Ignore
   public void getType_shouldReturnProviderValue() throws Exception {
     ShadowContentResolver.registerProvider(AUTHORITY, new ContentProvider() {
       @Override public boolean onCreate() {
@@ -102,6 +106,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void insert_shouldTrackInsertStatements() throws Exception {
     ContentValues contentValues = new ContentValues();
     contentValues.put("foo", "bar");
@@ -118,6 +123,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void insert_shouldTrackUpdateStatements() throws Exception {
     ContentValues contentValues = new ContentValues();
     contentValues.put("foo", "bar");
@@ -139,6 +145,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void delete_shouldTrackDeletedUris() throws Exception {
     assertThat(shadowContentResolver.getDeletedUris().size()).isEqualTo(0);
 
@@ -152,6 +159,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void delete_shouldTrackDeletedStatements() {
     assertThat(shadowContentResolver.getDeleteStatements().size()).isEqualTo(0);
 
@@ -169,6 +177,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void query_shouldReturnTheCursorThatWasSet() throws Exception {
     assertNull(shadowContentResolver.query(null, null, null, null, null));
     TestCursor cursor = new TestCursor();
@@ -177,6 +186,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void query_shouldReturnSpecificCursorsForSpecificUris() throws Exception {
     assertNull(shadowContentResolver.query(uri21, null, null, null, null));
     assertNull(shadowContentResolver.query(uri22, null, null, null, null));
@@ -191,6 +201,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void query_shouldKnowWhatItsParamsWere() throws Exception {
     String[] projection = {};
     String selection = "select";
@@ -209,11 +220,13 @@ public class ContentResolverTest {
     assertThat(testCursor.sortOrder).isEqualTo(sortOrder);
   }
 
+  @Ignore
   @Test
   public void acquireUnstableProvider_shouldDefaultToNull() throws Exception {
     assertThat(contentResolver.acquireUnstableProvider(uri21)).isNull();
   }
 
+  @Ignore
   @Test
   public void acquireUnstableProvider_shouldReturnWithUri() throws Exception {
     ContentProvider cp = mock(ContentProvider.class);
@@ -223,6 +236,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void acquireUnstableProvider_shouldReturnWithString() throws Exception {
     ContentProvider cp = mock(ContentProvider.class);
     ShadowContentResolver.registerProvider(AUTHORITY, cp);
@@ -230,6 +244,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void call_shouldCallProvider() throws Exception {
     final String METHOD = "method";
     final String ARG = "arg";
@@ -245,6 +260,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void openInputStream_shouldReturnAnInputStreamThatExceptionsOnRead() throws Exception {
     InputStream inputStream = contentResolver.openInputStream(uri21);
     try {
@@ -256,6 +272,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void openInputStream_returnsPreRegisteredStream() throws Exception {
     shadowContentResolver.registerInputStream(uri21, new ByteArrayInputStream("ourStream".getBytes()));
     InputStream inputStream = contentResolver.openInputStream(uri21);
@@ -265,11 +282,13 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void openOutputStream_shouldReturnAnOutputStream() throws Exception {
     assertThat(contentResolver.openOutputStream(uri21)).isInstanceOf(OutputStream.class);
   }
 
   @Test
+  @Ignore
   public void shouldTrackNotifiedUris() throws Exception {
     contentResolver.notifyChange(Uri.parse("foo"), null, true);
     contentResolver.notifyChange(Uri.parse("bar"), null);
@@ -290,6 +309,7 @@ public class ContentResolverTest {
 
   @SuppressWarnings("serial")
   @Test
+  @Ignore
   public void applyBatchForRegisteredProvider() throws RemoteException, OperationApplicationException {
     final ArrayList<String> operations = new ArrayList<String>();
     ShadowContentResolver.registerProvider("registeredProvider", new ContentProvider() {
@@ -378,6 +398,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void shouldKeepTrackOfSyncRequests() throws Exception {
     ShadowContentResolver.Status status = ShadowContentResolver.getStatus(a, AUTHORITY, true);
     assertNotNull(status);
@@ -388,6 +409,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void shouldKnowIfSyncIsActive() throws Exception {
     assertFalse(ContentResolver.isSyncActive(a, AUTHORITY));
     ContentResolver.requestSync(a, AUTHORITY, new Bundle());
@@ -395,6 +417,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void shouldSetIsSyncable() throws Exception {
     assertThat(ContentResolver.getIsSyncable(a, AUTHORITY)).isEqualTo(-1);
     assertThat(ContentResolver.getIsSyncable(b, AUTHORITY)).isEqualTo(-1);
@@ -405,6 +428,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void shouldSetSyncAutomatically() throws Exception {
     assertFalse(ContentResolver.getSyncAutomatically(a, AUTHORITY));
     ContentResolver.setSyncAutomatically(a, AUTHORITY, true);
@@ -412,6 +436,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void shouldAddPeriodicSync() throws Exception {
     ContentResolver.addPeriodicSync(a, AUTHORITY, new Bundle(), 6000l);
     ShadowContentResolver.Status status = ShadowContentResolver.getStatus(a, AUTHORITY);
@@ -421,6 +446,7 @@ public class ContentResolverTest {
     assertNotNull(status.syncs.get(0).extras);
   }
 
+  @Ignore
   @Test
   public void shouldRemovePeriodSync() throws Exception {
     ContentResolver.addPeriodicSync(a, AUTHORITY, new Bundle(), 6000l);
@@ -428,6 +454,7 @@ public class ContentResolverTest {
     assertThat(ShadowContentResolver.getStatus(a, AUTHORITY).syncs.size()).isEqualTo(0);
   }
 
+  @Ignore
   @Test
   public void shouldGetPeriodSyncs() throws Exception {
     assertThat(ContentResolver.getPeriodicSyncs(a, AUTHORITY).size()).isEqualTo(0);
@@ -443,6 +470,7 @@ public class ContentResolverTest {
     assertNotNull(first.extras);
   }
 
+  @Ignore
   @Test
   public void shouldValidateSyncExtras() throws Exception {
     Bundle bundle = new Bundle();
@@ -456,6 +484,7 @@ public class ContentResolverTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
+  @Ignore
   public void shouldValidateSyncExtrasAndThrow() throws Exception {
     Bundle bundle = new Bundle();
     bundle.putParcelable("intent", new Intent());
@@ -463,6 +492,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void shouldSetMasterSyncAutomatically() throws Exception {
     assertFalse(ContentResolver.getMasterSyncAutomatically());
     ContentResolver.setMasterSyncAutomatically(true);
@@ -470,6 +500,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void shouldDelegateCallsToRegisteredProvider() throws Exception {
     ShadowContentResolver.registerProvider(AUTHORITY, new ContentProvider() {
       @Override public boolean onCreate() {
@@ -506,6 +537,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void shouldRegisterContentObservers() throws Exception {
     TestContentObserver co = new TestContentObserver(null);
     ShadowContentResolver scr = Shadows.shadowOf(contentResolver);
@@ -525,6 +557,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void shouldUnregisterContentObservers() throws Exception {
     TestContentObserver co = new TestContentObserver(null);
     ShadowContentResolver scr = Shadows.shadowOf(contentResolver);
@@ -540,6 +573,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void getProvider_shouldCreateProviderFromManifest() {
     AndroidManifest manifest = Robolectric.getShadowApplication().getAppManifest();
     manifest.getContentProviders().add(new ContentProviderData("org.robolectric.shadows.ContentResolverTest$TestContentProvider", AUTHORITY));
@@ -547,6 +581,7 @@ public class ContentResolverTest {
   }
 
   @Test
+  @Ignore
   public void getProvider_shouldNotReturnAnyProviderWhenManifestIsNull() {
     Robolectric.application = new DefaultTestLifecycle().createApplication(null, null, null);
     assertThat(ShadowContentResolver.getProvider(Uri.parse("content://"))).isNull();
